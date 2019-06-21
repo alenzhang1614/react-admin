@@ -1,9 +1,17 @@
 import React,{Component} from 'react';
-import {Button} from 'antd'//引入antd库
+import Login from './pages/login';
+import Main from './pages/main'
+
+import {Route,Switch,Redirect} from 'react-router-dom'
 export default class App extends Component{
     render() {
         return(
-            <Button type="primary">按钮</Button>
+            <Switch>
+                <Route path='/Login' component={Login}/>
+                <Route path='/' component={Main}/>
+                <Redirect to='/Login'/>
+            </Switch>
+
         )
     }
 }
