@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import logo from './img/logo.png'
 import {Form, Icon, Input, Button,message} from 'antd';
-import axios from 'axios'
+import ajax from '../../api/ajax'
 
 import './index.less'
 
@@ -23,10 +23,10 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
         const {validateFields} = this.props.form;
-        validateFields((error, values) => {
+        validateFields(async (error, values) => {
             if (!error) {
                 const {username, password} = values
-                axios.post('/login',{username, password})//服务器代理模式，服务器端口5000，自己及端口3000，产生跨域问题，可以采用proxy服务器代理模式。在配置文件中添加proxy：“http://localhost：5000，这里写成“http://localhost：3000，为了避免以后上线时出现端口变化导致的改代码的问题，就要写成”/login
+               /* axios.post('/login',{username, password})//服务器代理模式，服务器端口5000，自己及端口3000，产生跨域问题，可以采用proxy服务器代理模式。在配置文件中添加proxy：“http://localhost：5000，这里写成“http://localhost：3000，为了避免以后上线时出现端口变化导致的改代码的问题，就要写成”/login
                     .then((res)=>{//跳转至指定网址两种方式，1中red为redirect。2编程是导航this.history。repalce
                          const {data} = res
                          if(data.status===0){
@@ -38,7 +38,14 @@ class Login extends Component {
                     })
                     .catch(res=>{
                          message.error("网络崩溃了~~~刷新试试")
-                    })
+                    })*/
+              const result=await ajax('/login',{username,password},'post')
+                console.log(result)
+                if (result){
+                    this.props.history.replace('/')
+                } else{
+                    this.props.form.resetFields('password')
+                }
             } else {
                 console.log('登录表单校验失败：', error);
             }
