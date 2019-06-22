@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import logo from './img/logo.png'
-import {Form, Icon, Input, Button,message} from 'antd';
-import ajax from '../../api/ajax'
+import {Form, Icon, Input, Button} from 'antd';
+import {resLogin} from '../../api'
 
 import './index.less'
 
@@ -39,8 +39,9 @@ class Login extends Component {
                     .catch(res=>{
                          message.error("网络崩溃了~~~刷新试试")
                     })*/
-              const result=await ajax('/login',{username,password},'post')
-                console.log(result)
+              // const result=await ajax('/login',{username,password},'post')
+                const result=await resLogin({username,password})//因为在login组件中路径和请求方式不会变，进一步优化，创建了reLogin函数，从而只需要传参传用户名和密码即可
+
                 if (result){
                     this.props.history.replace('/')
                 } else{
