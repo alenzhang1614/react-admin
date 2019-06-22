@@ -1,37 +1,53 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import logo from './img/logo.png'
-import { Form, Icon, Input, Button} from 'antd';
+import {Form, Icon, Input, Button,message} from 'antd';
+import axios from 'axios'
+
 import './index.less'
-class Login extends Component{
-    validator=(rule, value, callback)=>{
-        const name=rule.fullField==='username'?'用户名':'密码'
-        if(!value){
+
+class Login extends Component {
+    validator = (rule, value, callback) => {
+        const name = rule.fullField === 'username' ? '用户名' : '密码'
+        if (!value) {
             callback(`${name}不能为空`)
-        } else if(value.length<4){
+        } else if (value.length < 4) {
             callback(`${name}长度必须大于4`)
-        }else if(value.length>15){
+        } else if (value.length > 15) {
             callback(`${name}长度必须小于15`)
-        }else if(!/^[a-zA-Z0-9_$]+$/.test(value)){
+        } else if (!/^[a-zA-Z0-9_$]+$/.test(value)) {
             callback(`${name}只能是数字字母下划线和$`)
-        }else {
+        } else {
             callback()
         }
     }
-    handleSubmit=(e)=>{
+    handleSubmit = (e) => {
         e.preventDefault()
-        const  { validateFields } = this.props.form;
-        validateFields((error, values)=>{
-            if (!error){
-                const {username,password}=values
-                console.log(username,password)
-            }else {
+        const {validateFields} = this.props.form;
+        validateFields((error, values) => {
+            if (!error) {
+                const {username, password} = values
+                axios.post('/login',{username, password})//服务器代理模式，服务器端口5000，自己及端口3000，产生跨域问题，可以采用proxy服务器代理模式。在配置文件中添加proxy：“http://localhost：5000，这里写成“http://localhost：3000，为了避免以后上线时出现端口变化导致的改代码的问题，就要写成”/login
+                    .then((res)=>{//跳转至指定网址两种方式，1中red为redirect。2编程是导航this.history。repalce
+                         const {data} = res
+                         if(data.status===0){
+                                 this.props.history.replace('/')
+                         }
+                        if(data.status===1){
+                             message.error(data.msg,2)
+                         }
+                    })
+                    .catch(res=>{
+                         message.error("网络崩溃了~~~刷新试试")
+                    })
+            } else {
                 console.log('登录表单校验失败：', error);
             }
         })
     }
-    render(){
-        const { getFieldDecorator } = this.props.form;
-        return(
+
+    render() {
+        const {getFieldDecorator} = this.props.form;
+        return (
             <div className='loginWarp'>
                 <header className='loginHeader'>
                     <h1>
@@ -47,11 +63,11 @@ class Login extends Component{
                             {getFieldDecorator('username', {
                                 rules: [{
                                     // required: true, message: 'Please input your username!'
-                                    validator:this.validator
+                                    validator: this.validator
                                 }],
                             })(
                                 <Input
-                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
                                     placeholder="用户名"
                                     className='loginInput'
                                 />
@@ -59,10 +75,10 @@ class Login extends Component{
                         </Form.Item>
                         <Form.Item>
                             {getFieldDecorator('password', {
-                                rules: [{  validator:this.validator}],
+                                rules: [{validator: this.validator}],
                             })(
                                 <Input
-                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
                                     type="password"
                                     placeholder="密码"
                                     className='loginInput'
@@ -83,4 +99,5 @@ class Login extends Component{
         )
     }
 }
+
 export default Form.create()(Login);
