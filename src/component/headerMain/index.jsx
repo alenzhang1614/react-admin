@@ -1,23 +1,34 @@
-import React,{Component} from 'react';
-import { Layout} from 'antd';
-const { Header } = Layout;
+import React, {Component} from 'react';
+import {Layout} from 'antd';
+import './index.less'
+import logo from '../../assets/img/logo.png'
+
+const {Header} = Layout;
 
 
-export default class Main extends Component{
+export default class Main extends Component {
     state = {
         collapsed: false,
     };
 
     onCollapse = collapsed => {
         console.log(collapsed);
-        this.setState({ collapsed });
+        this.setState({collapsed});
     };
 
-    render(){
-
-
-        return(
-            <Header style={{ background: '#fff', padding: 0 }} />
+    render() {
+        return (
+            <Header style={{background: '#fff', padding: 0}} className='header'>
+                <div className='headerMainTop'>
+                    <span>欢迎 Admin</span>
+                    <button>登录</button>
+                </div>
+                <div className='headerMainBottom'>
+                    <span>{Date.now()}</span>
+                    <img src={logo} alt=""/>
+                    <span>晴</span>
+                </div>
+            </Header>
         )
     }
 }

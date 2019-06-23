@@ -12,7 +12,6 @@ export default class LeftNav extends Component {
     };
 
     onCollapse = collapsed => {
-        console.log(collapsed);
         this.setState({collapsed});
     };
     creatMenu=(item)=>{
@@ -51,11 +50,10 @@ export default class LeftNav extends Component {
                 <div className="logo">
                     <h1 className= "leftLogo">
                         <img src={logo} alt="logo"/>
-                        <span>硅谷后台</span>
+                        <span style={{display:collapsed?'none':'block'}}>硅谷后台</span>
                     </h1>
                 </div>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-
                     {this.menu}
                 </Menu>
             </Sider>
