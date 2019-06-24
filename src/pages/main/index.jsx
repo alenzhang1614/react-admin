@@ -3,6 +3,7 @@ import { Layout} from 'antd';
 import LeftNav from '../../component/leftNav'
 import HeaderMain from '../../component/headerMain'
 import {getItem} from "../../ulit/storage_tools";
+import {resConfirmUser} from '../../api/index'
 
 const { Content, Footer} = Layout;
 export default class Main extends Component{
@@ -14,12 +15,17 @@ export default class Main extends Component{
         console.log(collapsed);
         this.setState({ collapsed });
     };
-    componentWillMount() {
+    async componentWillMount() {
         const userData=getItem()
-        console.log(userData)
-        if (!userData||!userData._id){//为了保证这个内容不是自己添加的，正常情况应该去后台验证
-            this.props.history.replace('/Login')
+        if (userData&&userData._id){
+            const result=await resConfirmUser(userData._id)
+            console.log(result)
+            if (result) return
+            //判断一下这个数据在数据是否存在，定义了resConfirmUser函数，通过ajax请求到后台验证，防止伪造localstorage
         }
+            //为了保证这个内容不是自己添加的，正常情况应该去后台验证
+            this.props.history.replace('/Login')
+
     }
     render(){
 

@@ -44,8 +44,11 @@ class Login extends Component {
                 const result = await resLogin({username, password})//因为在login组件中路径和请求方式不会变，进一步优化，创建了reLogin函数，从而只需要传参传用户名和密码即可
 
                 if (result) {
+                    setItem(result)
+
                     this.props.history.replace('/')
-                    setItem(result)//为了实现只有登录后才会显示main页面，将返回的用户数据存储到localStorage，通过判断是否存在，加入存在，就跳转，不存在不跳转
+                  //要先设置在跳转，
+                    //为了实现只有登录后才会显示main页面，将返回的用户数据存储到localStorage，通过判断是否存在，加入存在，就跳转，不存在不跳转
                 } else {
                     this.props.form.resetFields('password')
                 }

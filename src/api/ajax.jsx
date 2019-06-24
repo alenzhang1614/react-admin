@@ -5,13 +5,12 @@ export default function ajax(url,data={},method='get'){//为了复用代码，�
         //默认方式设置为get，数据类型为{}
         //post请求和get请求穿参不一样
     let dataParam=data
-    console.log(dataParam)
-    if (method.toLowerCase()==='get'){
+    method=method.toLowerCase()
+    if (method==='get'){
         dataParam={
             params: data
         }
     }
-    console.log(dataParam)
     return axios[method](url,dataParam)
         .then((res)=>{//跳转至指定网址两种方式，1中red为redirect。2编程是导航this.history。repalce
             const {data} = res
