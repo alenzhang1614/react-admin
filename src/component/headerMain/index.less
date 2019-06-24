@@ -1,7 +1,17 @@
+@mycolor:rgba(0, 0, 0, 0.65);
+.clearfix{
+  &:after{
+    content: '\200B';
+    display: block;
+    height:0;
+    clear: both;
+  }
+}
 .header{
   height: unset;
   line-height: unset;
   margin-bottom: 30px;
+  color:@mycolor;
   .headerMainTop{
     padding:20px;
     text-align: right;
@@ -19,13 +29,40 @@
     }
   }
   .headerMainBottom{
-    height: unset;
-    padding: 5px 20px 5px 5px;
-    text-align: right;
-    img{
-      width: 30px;
-      margin: 0 10px;
+
+    padding-right: 20px;
+    height: 39px;
+    line-height: 39px;
+    .headerMainBottomLeft{
+      float: Left;
+      h2{
+        position: relative;
+        font-size: 18px;
+        color: @mycolor;
+        width: 180px;
+        text-align: center;
+        &:after{
+          position: absolute;
+          left: 50%;
+          top: 39px;
+          transform: translateX(-50%);
+          content: '\200B';
+          border-top:15px solid #fff;
+          border-bottom:15px solid transparent;
+          border-left:15px solid transparent;
+          border-right:15px solid transparent;
+        }
+      }
     }
+    .headerMainBottomRight{
+      float: right;
+      img{
+        width: 30px;
+        margin: 0 10px;
+      }
+    }
+
+
 
 
   }

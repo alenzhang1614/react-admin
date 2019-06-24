@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from '../../assets/img/logo.png'
 import {Form, Icon, Input, Button} from 'antd';
 import {resLogin} from '../../api'
+import {setItem} from "../../ulit/storage_tools";
 
 import './index.less'
 
@@ -44,6 +45,7 @@ class Login extends Component {
 
                 if (result) {
                     this.props.history.replace('/')
+                    setItem(result)//为了实现只有登录后才会显示main页面，将返回的用户数据存储到localStorage，通过判断是否存在，加入存在，就跳转，不存在不跳转
                 } else {
                     this.props.form.resetFields('password')
                 }

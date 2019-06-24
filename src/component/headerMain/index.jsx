@@ -23,10 +23,16 @@ export default class Main extends Component {
                     <span>欢迎 Admin</span>
                     <button>登录</button>
                 </div>
-                <div className='headerMainBottom'>
-                    <span>{Date.now()}</span>
-                    <img src={logo} alt=""/>
-                    <span>晴</span>
+                <div className='headerMainBottom clearfix'>
+                    <div className="headerMainBottomLeft">
+                        <h2>首页</h2>
+                    </div>
+                    <div className="headerMainBottomRight">
+                        <span>{Date.now()}</span>
+                        <img src={logo} alt=""/>
+                        <span>晴</span>
+                    </div>
+
                 </div>
             </Header>
         )

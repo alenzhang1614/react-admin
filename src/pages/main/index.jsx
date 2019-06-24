@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
-import { Layout,  Breadcrumb,} from 'antd';
+import { Layout} from 'antd';
 import LeftNav from '../../component/leftNav'
 import HeaderMain from '../../component/headerMain'
-const { Content, Footer,Header } = Layout;
+import {getItem} from "../../ulit/storage_tools";
+
+const { Content, Footer} = Layout;
 export default class Main extends Component{
     state = {
         collapsed: false,
@@ -12,7 +14,13 @@ export default class Main extends Component{
         console.log(collapsed);
         this.setState({ collapsed });
     };
-
+    componentWillMount() {
+        const userData=getItem()
+        console.log(userData)
+        if (!userData||!userData._id){//为了保证这个内容不是自己添加的，正常情况应该去后台验证
+            this.props.history.replace('/Login')
+        }
+    }
     render(){
 
         return(

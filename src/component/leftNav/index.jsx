@@ -3,6 +3,7 @@ import {Layout, Menu, Icon} from 'antd';
 import menuList from '../../config/menuConfig'
 import logo from '../../assets/img/logo.png'
 import './index.less'
+import {Link} from 'react-router-dom'
 
 const {Sider} = Layout;
 const {SubMenu,Item} = Menu;
@@ -15,12 +16,15 @@ export default class LeftNav extends Component {
         this.setState({collapsed});
     };
     creatMenu=(item)=>{
-        return (<Item key={item.key}>
-            <Icon type={item.icon}/>
-            <span>{item.title}</span>
-        </Item>)
-    }
+        return (
+            <Item key={item.key}>
+                <Link to={item.key}>
+                    <Icon type={item.icon}/>
+                    <span>{item.title}</span>
+                </Link>
 
+            </Item>)
+    }
     componentWillMount() {//初始化渲染左侧导航栏
         this.menu = menuList.map((menu) => {
             const {children} = menu
