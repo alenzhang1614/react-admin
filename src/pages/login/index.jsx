@@ -47,7 +47,7 @@ class Login extends Component {
                     setItem(result)
 
                     this.props.history.replace('/')
-                  //要先设置在跳转，
+                    //要先设置在跳转，
                     //为了实现只有登录后才会显示main页面，将返回的用户数据存储到localStorage，通过判断是否存在，加入存在，就跳转，不存在不跳转
                 } else {
                     this.props.form.resetFields('password')
