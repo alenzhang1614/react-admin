@@ -22,3 +22,5 @@ export const reqWeather = function (name) {
 export const reqCategory=(parentId)=>ajax('/manage/category/list', {parentId}, "get")
 //添加分类列表的路由
 export const addCategory=({categoryName,parentId})=>ajax('/manage/category/add', {categoryName,parentId}, "post")
+//更新分类数据
+export const updateCategory=({categoryId,categoryName})=>ajax('manage/category/update', {categoryId,categoryName}, "post")
