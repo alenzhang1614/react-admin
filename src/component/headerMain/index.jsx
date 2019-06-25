@@ -40,9 +40,8 @@ class HeaderMain extends Component {
             },
         });
     }
-
     componentWillMount() {
-        this.username = getItem('USER_KEY').username
+        this.username = getItem().username
     }
 
     async componentDidMount() {
@@ -51,7 +50,7 @@ class HeaderMain extends Component {
                 systime: Date.now()
             })
         }, 1000)
-        const weather = await reqWeather('深圳')//异步函数为了得到结果async
+        const weather = await reqWeather('深圳')//异步函数为了得到结果async,切换组件需要停止发送请求
         this.setState({
             weather
         })

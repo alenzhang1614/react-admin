@@ -28,6 +28,7 @@ class LeftNav extends Component {
 
     componentWillMount() {//初始化渲染左侧导航栏
         const {pathname} = this.props.location;
+        this.isHome=true
         this.menu = menuList.map((menu) => {
             const {children} = menu
             if (children) {
@@ -43,23 +44,22 @@ class LeftNav extends Component {
                         if (item.key === pathname) {
                             // 说明当前地址是一个二级菜单，需要展开一级菜单
                             // 初始化展开的菜单
+                            this.isHome=false
                             this.openKey = menu.key;
                         }
                         return this.creatMenu(item)
                     })}
                 </SubMenu>)
             } else {
+                if(menu.key===pathname){
+                    this.isHome=true
+                }
                 return this.creatMenu(menu)
             }
         })
-         this.selectedKey = pathname
+         this.selectedKey = this.isHome?'/home':pathname;
     }
 
-
-    componentWillReceiveProps(nextProps, nextContext) {
-        const {pathname} = nextProps.location;
-        this.selectedKey = pathname
-    }
 
     render() {
         const {collapsed} = this.state

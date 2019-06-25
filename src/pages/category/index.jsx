@@ -1,53 +1,45 @@
 import React, {Component} from 'react';
 import { Card ,Table,Button,Icon} from 'antd';
-import MyButton from '../../component/MyButton'
+import MyButton from '../../component/MyButton';
+import {reqCategory} from '../../api'
 
 
 
 export default class Category extends Component {
     state={
-        columns:[
+        data:[],
+    }
+    async componentDidMount() {
+        const result=await reqCategory(0)
+        this.setState({
+            data: result
+        })
+
+    }
+
+
+    render() {
+        const columns=[
             {
                 title: '商品列表',
-                dataIndex: 'category',
+                dataIndex: 'name',
             },
             {
                 title: '添加列表',
                 dataIndex: 'operate',
                 width:200,
                 render: text => {
-                   return(
-                       <div>
-                           <MyButton >修改名称</MyButton>
-                           <MyButton >查看子类</MyButton>
-                       </div>
-                   )
+                    return(
+                        <div>
+                            <MyButton >修改名称</MyButton>
+                            <MyButton >查看子类</MyButton>
+                        </div>
+                    )
                 }
             },
-        ],
-        data:[
-            {
-                key: '1',
-                category: 'John Brown',
-                operate: 'New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                category: 'Jim Green',
-                operate: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                category: 'Joe Black',
-                operate: 'Sidney No. 1 Lake Park',
-            },
-        ],
-    }
-
-
-
-    render() {
-        const {columns,data}=this.state
+        ]
+        const {data}=this.state
+        console.log(data)
 
         return (
 
@@ -57,6 +49,7 @@ export default class Category extends Component {
                             columns={columns}
                             dataSource={data}
                             bordered
+                            rowKey={'_id'}
                         />,
                     </Card>
                 </div>
