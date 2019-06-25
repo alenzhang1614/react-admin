@@ -33,7 +33,6 @@ export default class Main extends Component{
             //为了保证这个内容不是自己添加的，正常情况应该去后台验证
             //判断一下这个数据在数据是否存在，定义了resConfirmUser函数，通过ajax请求到后台验证，防止伪造localstorage
             const result=await resConfirmUser(userData._id)
-            console.log(result)
             if (result) this.setState({
                 isLoading:false,
                 success:true
@@ -52,7 +51,6 @@ export default class Main extends Component{
     }
     render(){
         const {isLoading,success}=this.state
-        console.log(isLoading,success)
         if (isLoading) return null
         else return success?<Layout style={{ minHeight: '100vh' }}>
             <LeftNav/>
