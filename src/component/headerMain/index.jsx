@@ -29,7 +29,6 @@ class HeaderMain extends Component {
         this.setState({collapsed});
     };
     escLogin = () => {
-        console.log('escLogin()')
         confirm({
             title: '你确定要退出当前用户吗?',
             okText: '确定',

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {Card, Table, Button, Icon, message, Modal} from 'antd';
 import MyButton from '../../component/MyButton';
-import {reqCategory, addCategory,updateCategory} from '../../api'
+import {reqCategory, addCategory,updateCategory,deleteCategory} from '../../api'
 import AddCategoryForm from './addCategoryForm'
 import UpdateCategoryName from './updateCategoryName'
+
+const { confirm } = Modal
 
 export default class Category extends Component {
     state = {
@@ -36,12 +38,13 @@ export default class Category extends Component {
             }
             const {parentId, categoryName} = values
             const result = await addCategory({parentId, categoryName})
-            // console.log(result)
             if (result) {
                 message.success('添加品类成功', 1)
-                this.setState({
-                    category: [...this.state.category, result]
-                })
+                if(result.parentId==='0'){
+                    this.setState({
+                        category: [...this.state.category, result]
+                    })
+                }
             }
             this.setState({isShowAddCategory: false});
             resetFields();
@@ -53,33 +56,16 @@ export default class Category extends Component {
             this.setState({
                 isShowUpdateCategory:true
             })
-            // const {validateFields, resetFields} = this.addCategoryNameForm.props.form;
             const {_id,name} = data
             this.updateData={
                 categoryId:_id,
                 categoryName: name
             }
-            // validateFields(async (err, values) => {
-            //     if (err) {
-            //         return;
-            //     }
-            //     const {parentId, categoryName} = values
-            //     console.log(values)
-            //     // const result = await addCategory({parentId, categoryName})
-            //     // console.log(result)
-            //     // if (result) {
-            //     //     message.success('添加品类成功', 1)
-            //     //     this.setState({
-            //     //         category: [...this.state.category, result]
-            //     //     })
-            //     // }
-            //     this.setState({isShowUpdateCategory: false});
-            //     resetFields();
-            // })
         }
 
     }
-    consfirmUpdateCategory=()=>{
+    //保存修改的数据
+    confirmUpdateCategory=()=>{
         const {validateFields, resetFields} = this.addCategoryNameForm.props.form;
         /*校验并获取一组输入域的值与 Error，若 fieldNames 参数为空，则校验全部组件
         *参数：fildname，option，callback（err，values）
@@ -115,13 +101,33 @@ export default class Category extends Component {
             resetFields();
         })
     }
-
+//删除数据
+    deleteCategory=(deleteData)=>{
+        console.log(deleteData)
+        return ()=>{
+            confirm({
+                title: '确定要删除当前品类及子品类吗删除后数据无法恢复?',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: async () => {
+                    const result=await deleteCategory(deleteData._id)
+                    if (result){
+                        message.success('删除数据成功', 1)
+                        this.setState({
+                            category:this.state.category.filter((item)=>item._id!=deleteData._id)
+                        })
+                    }
+                },
+            });
+        }
+    }
     addCategoryForm = formRef => {
         this.addCategoryNameForm = formRef;
     };
-
+    //初始化列表数据
     async componentDidMount() {
         const result = await reqCategory(0)
+        // const newResult=result.filter((item)=>item.isDel===false)
         this.setState({
             category: result
         })
@@ -142,7 +148,7 @@ export default class Category extends Component {
                         <div>
                             <MyButton onClick={this.updateCategoryName(text)}>修改名称</MyButton>
                             <MyButton >查看子类</MyButton>
-                            <MyButton >删除品类</MyButton>
+                            <MyButton onClick={this.deleteCategory(text)}>删除品类</MyButton>
                         </div>
                     )
                 }
@@ -170,7 +176,7 @@ export default class Category extends Component {
                         okText="确认"
                         cancelText='取消'
                         onCancel={this.hiddenCategory('isShowUpdateCategory')}
-                        onOk={this.consfirmUpdateCategory}
+                        onOk={this.confirmUpdateCategory}
                     >
                         <UpdateCategoryName wrappedComponentRef={this.addCategoryForm} updateData={this.updateData}
                         />

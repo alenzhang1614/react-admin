@@ -24,3 +24,5 @@ export const reqCategory=(parentId)=>ajax('/manage/category/list', {parentId}, "
 export const addCategory=({categoryName,parentId})=>ajax('/manage/category/add', {categoryName,parentId}, "post")
 //更新分类数据
 export const updateCategory=({categoryId,categoryName})=>ajax('manage/category/update', {categoryId,categoryName}, "post")
+
+export const deleteCategory=(categoryId)=>ajax('manage/category/delete', {categoryId}, "post")
