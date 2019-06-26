@@ -14,7 +14,6 @@ export default function ajax(url,data={},method='get'){//为了复用代码，�
     return axios[method](url,dataParam)
         .then((res)=>{//跳转至指定网址两种方式，1中red为redirect。2编程是导航this.history。repalce
             const {data} = res
-            console.log(data)
             if(data.status===0){
                 return data.data?data.data:{}
             } else if(data.status===1){

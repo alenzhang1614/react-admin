@@ -55,7 +55,13 @@ class HeaderMain extends Component {
         })
     }
     componentWillReceiveProps(nextProps, nextContext) {
-        const pathName=nextProps.location.pathname
+        let pathName=nextProps.location.pathname
+
+        const pathnameReg = /^\/product\//;
+//用来通过路径匹配标题名称的
+        if (pathnameReg.test(pathName)) {
+            pathName = pathName.slice(0, 8);
+        }
         const title=this.getTitle(pathName)
         this.setState({
             title
@@ -66,6 +72,9 @@ class HeaderMain extends Component {
         clearInterval(this.timerId)
     }
     getTitle=(pathName)=>{
+
+
+
         let title = ''
         for (let i=0;i<menuList.length;i++){
             const menu=menuList[i]
@@ -80,7 +89,6 @@ class HeaderMain extends Component {
                 }
            }
         }
-        console.log(title)
         return title
     }
 

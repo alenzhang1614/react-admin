@@ -23,6 +23,8 @@ export const reqCategory=(parentId)=>ajax('/manage/category/list', {parentId}, "
 //添加分类列表的路由
 export const addCategory=({categoryName,parentId})=>ajax('/manage/category/add', {categoryName,parentId}, "post")
 //更新分类数据
-export const updateCategory=({categoryId,categoryName})=>ajax('manage/category/update', {categoryId,categoryName}, "post")
+export const updateCategory=({categoryId,categoryName})=>ajax('/manage/category/update', {categoryId,categoryName}, "post")
+//删除分类列表数据
+export const deleteCategory=(categoryId)=>ajax('/manage/category/delete', {categoryId}, "post")
 
-export const deleteCategory=(categoryId)=>ajax('manage/category/delete', {categoryId}, "post")
+export const reqProduct=(pageNum,pageSize)=>ajax('/manage/product/list', {pageNum,pageSize}, "get")

@@ -27,7 +27,11 @@ class LeftNav extends Component {
     };
 
     componentWillMount() {//初始化渲染左侧导航栏
-        const {pathname} = this.props.location;
+        let {pathname} = this.props.location;
+        const pathnameReg=/^\/product\//
+        if (pathnameReg.test(pathname)) {
+            pathname=pathname.slice(0,8)
+        }
         this.isHome=true
         this.menu = menuList.map((menu) => {
             const {children} = menu
