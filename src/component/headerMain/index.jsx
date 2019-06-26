@@ -41,6 +41,8 @@ class HeaderMain extends Component {
     }
     componentWillMount() {
         this.username = getItem().username
+        this.getTitle(this.props.location.pathName)
+
     }
 
     async componentDidMount() {
@@ -56,40 +58,45 @@ class HeaderMain extends Component {
     }
     componentWillReceiveProps(nextProps, nextContext) {
         let pathName=nextProps.location.pathname
-
-        const pathnameReg = /^\/product\//;
-//用来通过路径匹配标题名称的
-        if (pathnameReg.test(pathName)) {
-            pathName = pathName.slice(0, 8);
-        }
-        const title=this.getTitle(pathName)
-        this.setState({
-            title
-        })
+        this.getTitle(pathName)
+        // this.setState({
+        //     title
+        // })
     }
 
     componentWillUnmount() {
         clearInterval(this.timerId)
     }
     getTitle=(pathName)=>{
-
-
-
         let title = ''
+
+        const pathnameReg = /^\/product\//;
+//用来通过路径匹配标题名称的
+        if (pathnameReg.test(pathName)) {
+            pathName = pathName.slice(0, 8);
+        }
+        console.log(pathName)
         for (let i=0;i<menuList.length;i++){
             const menu=menuList[i]
             if(menu.key===pathName){
-                return title=menu.title
+                console.log(menu.title)
+                title=menu.title
+                break
             } else if (menu.children){
                 const children=menu.children
                 for (let j=0;j<children.length;j++){
                     if(children[j].key===pathName){
-                        return title=children[j].title
+                        title=children[j].title
+                        break
                     }
                 }
            }
+
         }
-        return title
+        console.log(title)
+        this.setState({
+            title:title
+        })
     }
 
     render() {

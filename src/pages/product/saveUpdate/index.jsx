@@ -2,13 +2,18 @@ import React, {Component} from 'react';
 import {Card, Icon, Form, Input, Cascader, Button, InputNumber} from 'antd';
 import './index.less';
 import {reqCategory} from '../../../api'
+import RichTextEditor from './richTextEditor'
+
+
+
 
 const {Item} = Form
 
 
 export default class SaveUpdate extends Component {
     state = {
-        options: []
+        options: [],
+
     };
 
     loadData = (async (category) => {
@@ -49,7 +54,11 @@ export default class SaveUpdate extends Component {
         }
     }
 
+
+
     render() {
+
+        const { editorState } = this.state;
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
@@ -91,7 +100,8 @@ export default class SaveUpdate extends Component {
                             parser={value => value.replace(/\￥\s?|(,*)/g, '')}
                         />
                     </Item>
-                    <Item label='商品详情'>
+                    <Item label='商品详情'  wrapperCol={{span: 22}} >
+                        <RichTextEditor/>
                     </Item>
                     <Item>
                         <Button type='primary' htmlType='submit'>提交</Button>
