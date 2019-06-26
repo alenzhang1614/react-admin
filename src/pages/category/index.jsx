@@ -225,7 +225,6 @@ export default class Category extends Component {
             isShowSubCategory,
             subCategory,
             isLoading} = this.state
-        console.log(subCategory)
         const columns = [
             {
                 title: '商品列表',

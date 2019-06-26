@@ -5,13 +5,15 @@ import './index.less';
 import {reqProduct} from '../../../api'
 import MyButton from '../../../component/MyButton'
 
-const {option} = Select;
+const {Option} = Select;
 
 export default class Index extends Component {
     state = {
         productList: []
     }
-
+    addProduct=()=>{
+        this.props.history.replace('/product/saveUpdate')
+    }
     async componentDidMount() {
         const productData = await reqProduct(1, 3)
         if (productData) {
@@ -21,7 +23,6 @@ export default class Index extends Component {
         }
 
     }
-
     render() {
         const columns = [{
             title: '商品名称',
@@ -68,14 +69,14 @@ export default class Index extends Component {
             <Card className='productWarp'
                   title={<div>
                       <Select defaultValue='0'>
-                          <option value="0">按照商品名称</option>
-                          <option value="1">按照商品价格</option>
+                          <Option value="0">按照商品名称</Option>
+                          <Option value="1">按照商品价格</Option>
                       </Select>
                       <Input type="text" placeholder="关键词" className='searchInput'/>
                       <Button type='primary'>搜索</Button>
                   </div>}
                   extra={
-                      <Button type='primary'><Icon type='plus'/>添加商品</Button>
+                      <Button type='primary' onClick={this.addProduct}><Icon type='plus'/>添加商品</Button>
                   }
             >
                 <Table
