@@ -107,6 +107,7 @@ export default class Category extends Component {
                 categoryId: _id,
                 categoryName: name
             }
+
         }
 
     }
@@ -198,6 +199,8 @@ export default class Category extends Component {
         }
     })
     hiddenSubCategory = () => {
+        const {resetFields} = this.addCategoryNameForm.props.form;
+        resetFields();
         this.setState({
             isShowSubCategory: false
         })
