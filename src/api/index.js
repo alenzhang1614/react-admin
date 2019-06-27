@@ -28,3 +28,6 @@ export const updateCategory=({categoryId,categoryName})=>ajax('/manage/category/
 export const deleteCategory=(categoryId)=>ajax('/manage/category/delete', {categoryId}, "post")
 
 export const reqProduct=(pageNum,pageSize)=>ajax('/manage/product/list', {pageNum,pageSize}, "get")
+//添加商品分类
+export const addProduct=({categoryId,pCategoryId,name,price,desc,detail})=>ajax('/manage/product/add',{categoryId,pCategoryId,name,price,desc,detail},'post')
+export const updateStatus=({productId,status})=>ajax('/manage/product/updateStatus', {productId,status}, "post")
