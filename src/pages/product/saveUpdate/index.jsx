@@ -53,7 +53,6 @@ class SaveUpdate extends Component {
             if (err) {
                 return
             }
-            console.log(values)
             const {editorState} = this.richTextEditorRef.current.state
             const detail = draftToHtml(convertToRaw(editorState.getCurrentContent()))
             const {name, desc, categoriesId, price} = values
@@ -74,6 +73,7 @@ class SaveUpdate extends Component {
                  options._id=product._id
                 result = await updateProduct(options)
                 msg='修改产品成功'
+                console.log(options)
             }
             else {
                 result = await addProduct(options)
@@ -81,7 +81,6 @@ class SaveUpdate extends Component {
             }
             if (result) {
                 message.success(msg, 1)
-                console.log(result)
                 this.props.history.push('/product/index')
             }
 
@@ -90,7 +89,7 @@ class SaveUpdate extends Component {
 
 
     getCategory = async (parentId) => {
-        const result = await reqCategory("0")
+        const result = await reqCategory(parentId)
         if (result) {
             if (parentId === '0') {
                 this.setState({
@@ -103,18 +102,22 @@ class SaveUpdate extends Component {
                     })
                 })
             } else {
-                this.state.options.map((item) => {
-                    if (item._id === parentId) {
-                        item.children = result.map((childrenItem) => {
-                            return {
-                                label: `${childrenItem.name}`,
-                                value: `${childrenItem._id}`
-                            }
-                        })
-                    }
-                    return item
+                this.setState({
+                    options: this.state.options.map((item) => {
+                        //item不存在_id ,只存在item.value(里面存的时候当前的id)，查找他下面的所有的子类
+                        if (item.value === parentId) {
+                            item.children = result.map((childrenItem) => {
+                                return {
+                                    label: `${childrenItem.name}`,
+                                    value: `${childrenItem._id}`
+                                }
+                            })
+                        }
+                        return item
+                    })
                 })
             }
+            console.log(this.state.options)
         }
 
     }
@@ -124,7 +127,6 @@ class SaveUpdate extends Component {
     async componentDidMount() {
         //当添加产品时默认加载一级分类数据
         this.getCategory('0')
-
         //修改产品时查找一级分类数据和二级分类数据
         const product = this.props.location.state;
         let categoriesId = [];
@@ -133,7 +135,8 @@ class SaveUpdate extends Component {
             console.log(pCategoryId, categoryId)
             if (pCategoryId !== '0') {
                 categoriesId.push(pCategoryId);
-                this.getCategory(categoryId)
+                //查找1级分类，和二级分类，查找1级分类对应下的二级分类，传pCategoryId
+                this.getCategory(pCategoryId)
             }
             categoriesId.push(categoryId)
         }
@@ -202,7 +205,7 @@ class SaveUpdate extends Component {
                                     message: '选择商品品类',
                                 }
                             ],
-                            initialValue: this.categoriesId
+                             initialValue: this.categoriesId
                         })(
                             <Cascader
                                 placeholder='请选择商品分类'

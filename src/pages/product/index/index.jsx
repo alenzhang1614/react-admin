@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import {Card, Select, Input, Button, Icon, Table, message} from "antd";
 import './index.less';
 
-import {reqProduct} from '../../../api'
+import {reqCategory, reqProduct} from '../../../api'
 import MyButton from '../../../component/MyButton'
 import {updateStatus} from '../../../api'
-
-
 const {Option} = Select;
 
 export default class Index extends Component {
@@ -41,11 +39,31 @@ export default class Index extends Component {
     modifyProduct = (product) => {
         return () => {
             //第二个参数会将参数传给另外一个页面，数据在this.props.location.state上，不传第二个参数没有这个属性
+
             this.props.history.push('/product/saveUpdate',product)
         }
     }
-
-
+    productDetail=(product)=>{
+        return async ()=>{
+            const {pCategoryId,categoryId} = product;
+            let  subCategory=null;
+            let subCategoryData=null;
+            let pName=''
+            let cName=''
+            const category = await reqCategory('0');
+            if(pCategoryId!=='0') {
+                subCategory = await reqCategory(pCategoryId);//二级菜单
+                const {name} = category.find((item) => item._id === pCategoryId)//一级菜单
+                subCategoryData = subCategory.find((item) => item._id === categoryId)//二级菜单
+                pName = name
+            }
+            else{
+                subCategoryData  = category.find((item)=> item._id===categoryId)//二级菜单
+            }
+            cName= subCategoryData.name
+            this.props.history.push('/product/detail',{pName,cName,product})
+        }
+    }
     /*请求页面页数和指定页数的数据，每次路由组价的切换时，另外一个组件会被卸载，
     初始化默认请求第一页数据，点击切换页面时加载其他页，所以要请求回来的数据包括总页数
     */
@@ -63,11 +81,9 @@ export default class Index extends Component {
             })
         }
     }
-
     async componentDidMount() {
         this.reqProductList(1, 3)
     }
-
     render() {
         const columns = [{
             title: '商品名称',
@@ -95,14 +111,13 @@ export default class Index extends Component {
             title: '操作',
             render: (product) => {
                 return <div>
-                    <MyButton>详情</MyButton>
+                    <MyButton onClick={this.productDetail(product)}>详情</MyButton>
                     <MyButton onClick={this.modifyProduct(product)}>修改</MyButton>
                 </div>
             }
         }]
 
         const {productList, total, isLoading} = this.state;
-        console.log(productList)
 
         return (
             <Card className='productWarp'
@@ -123,6 +138,7 @@ export default class Index extends Component {
                     dataSource={productList}
                     rowKey={"_id"}
                     bordered
+                    loading={isLoading}
                     pagination={{
                         defaultPageSize: 3,
                         showSizeChanger: true,
@@ -130,7 +146,7 @@ export default class Index extends Component {
                         total,
                         onChange: this.reqProductList,
                         onShowSizeChange: this.reqProductList,
-                        loading: isLoading
+
                     }}
 
                 >

@@ -75,7 +75,6 @@ class HeaderMain extends Component {
         if (pathnameReg.test(pathName)) {
             pathName = pathName.slice(0, 8);
         }
-        console.log(pathName)
         for (let i=0;i<menuList.length;i++){
             const menu=menuList[i]
             if(menu.key===pathName){
@@ -93,7 +92,6 @@ class HeaderMain extends Component {
            }
 
         }
-        console.log(title)
         this.setState({
             title:title
         })
