@@ -11,7 +11,7 @@ import Category from '../../pages/category'
 import Pie from '../../pages/pie'
 import Product from '../product/index'
 import User from '../../pages/user'
-import Rule from '../../pages/rule'
+import Rule from '../role'
 import Line from '../../pages/line'
 import Bar from '../../pages/bar'
 

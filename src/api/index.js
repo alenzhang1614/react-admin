@@ -32,3 +32,7 @@ export const reqProduct=(pageNum,pageSize)=>ajax('/manage/product/list', {pageNu
 export const addProduct=({categoryId,pCategoryId,name,price,desc,detail})=>ajax('/manage/product/add',{categoryId,pCategoryId,name,price,desc,detail},'post')
 export const updateProduct=({_id,categoryId,pCategoryId,name,price,desc,detail})=>ajax('/manage/product/update',{_id,categoryId,pCategoryId,name,price,desc,detail},'post')
 export const updateStatus=({productId,status})=>ajax('/manage/product/updateStatus', {productId,status}, "post")
+
+//获取角色列表
+export const getRole=()=>ajax('/manage/role/list',{})
+export const addRole=({name})=>ajax('/manage/role/add',{name},'post')
