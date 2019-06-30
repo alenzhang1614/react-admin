@@ -9,6 +9,7 @@ class UpdateCategoryName extends Component {
 
     validator = (rules, value, callback) => {//自定义校验规则
         // console.log(value)
+        if (!value) return callback('名称不能为空')
         const {categoryName}=this.props.updateData
         if (value===categoryName) return callback('请输入不同的名字');
         else callback();

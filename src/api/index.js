@@ -35,4 +35,11 @@ export const updateStatus=({productId,status})=>ajax('/manage/product/updateStat
 
 //获取角色列表
 export const getRole=()=>ajax('/manage/role/list',{})
+//添加角色
 export const addRole=({name})=>ajax('/manage/role/add',{name},'post')
+//更新角色
+export const updateRole=({_id,auth_name,menus})=>ajax('/manage/role/update',{_id,auth_name,menus},'post')
+//删除角色
+export const deleteRole=(role_id)=>ajax('/manage/role/delete',{role_id},'post');
+//获取用户列表
+export const reqUser=()=>ajax('/manage/user/list',{})

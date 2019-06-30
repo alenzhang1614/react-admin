@@ -107,7 +107,6 @@ export default class Category extends Component {
                 categoryId: _id,
                 categoryName: name
             }
-
         }
 
     }
@@ -118,14 +117,13 @@ export default class Category extends Component {
         *参数：fildname，option，callback（err，values）
         * */
         validateFields(async (err, values, callback) => {
+            console.log(err, values, callback)
             if (err) {
                 return;
             }
             const {categoryName} = values
             const {categoryId} = this.updateData
             const {category} = this.state
-            const isSame = category.find((item) => item.name === categoryName)
-            if (isSame) {return callback("该分类已存在")}
             this.openLoading()
             const result = await updateCategory({categoryId, categoryName})
             if (result) {

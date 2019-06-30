@@ -56,14 +56,13 @@ class LeftNav extends Component {
                 </SubMenu>)
             } else {
                 if(menu.key===pathname){
-                    this.isHome=true
+                    this.isHome=false
                 }
                 return this.creatMenu(menu)
             }
         })
          this.selectedKey = this.isHome?'/home':pathname;
     }
-
 
     render() {
         const {collapsed} = this.state

@@ -8,12 +8,12 @@ import {Route,Switch,Redirect} from 'react-router-dom'
 
 import Home from '../../pages/home'
 import Category from '../../pages/category'
-import Pie from '../../pages/pie'
+import Pie from '../../pages/charts/pie'
 import Product from '../product/index'
 import User from '../../pages/user'
 import Rule from '../role'
-import Line from '../../pages/line'
-import Bar from '../../pages/bar'
+import Line from '../../pages/charts/line'
+import Bar from '../../pages/charts/bar'
 
 
 const { Content, Footer} = Layout;
@@ -33,10 +33,12 @@ export default class Main extends Component{
             //为了保证这个内容不是自己添加的，正常情况应该去后台验证
             //判断一下这个数据在数据是否存在，定义了resConfirmUser函数，通过ajax请求到后台验证，防止伪造localstorage
             const result=await resConfirmUser(userData._id)
-            if (result) this.setState({
-                isLoading:false,
-                success:true
-            })
+            if (result) {
+                this.setState({
+                    isLoading:false,
+                    success:true
+                })
+            }
         }else{
             this.setState({
                 isLoading:false,
